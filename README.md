@@ -23,3 +23,9 @@ Based on the work of [Ryan Brucks](http://shaderbits.com/blog/octahedral-imposto
 
 [TSK07: Fast (Spherical) Light Field Rendering with Per-Pixel Depth. Severin Todt, Christof Rezk-Salama
 and Andreas Kolb](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.90.6202&rep=rep1&type=pdf)
+
+License
+-------
+
+[CC0](https://creativecommons.org/share-your-work/public-domain/cc0/)
+*Pine004 example asset is from the free Unity Book of the Dead Environment project
