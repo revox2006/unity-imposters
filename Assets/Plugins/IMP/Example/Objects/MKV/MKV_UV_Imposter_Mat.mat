@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: MKV_UV_Imposter_Mat
   m_Shader: {fileID: 4800000, guid: 9a2a558a3286bbc409d4ac3b1d04973a, type: 3}
@@ -28,7 +28,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Cutoff: 0.4
-    - _Glossiness: 0.456
+    - _Glossiness: 0.413
+    - _ImposterBorderClamp: 2
     - _ImposterFrames: 16
     - _ImposterFullSphere: 1
     - _ImposterSize: 0.6767192

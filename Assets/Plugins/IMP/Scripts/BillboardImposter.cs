@@ -78,7 +78,7 @@ public class BillboardImposter : ScriptableObject
             tangents = new Vector4[5]
         };
         mesh.SetTriangles(triangles, 0);
-        mesh.bounds = new Bounds(Vector3.zero, Vector3.one * Radius * 2f);
+        mesh.bounds = new Bounds(Vector3.zero+Offset, Vector3.one * Radius * 2f);
         mesh.RecalculateTangents();
         return mesh;
     }

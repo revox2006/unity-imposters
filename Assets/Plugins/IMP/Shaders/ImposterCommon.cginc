@@ -71,11 +71,15 @@ half4 BakeNormalsDepth( sampler2D bumpMap, half2 uv, half depth, half4 tangentTo
     return half4( worldNormal.xyz*0.5+0.5, 1-depth );
 }
 
-half4 ImposterBlendWeights( sampler2D tex, half2 uv, half2 frame0, half2 frame1, half2 frame2, half4 weights, half2 dx, half2 dy )
+half4 ImposterBlendWeights( sampler2D tex, half2 uv, half2 frame0, half2 frame1, half2 frame2, half4 weights, half2 ddxy )
 {    
-    half4 samp0 = tex2Dgrad( tex, frame0, dx.xy, dy.xy );
-    half4 samp1 = tex2Dgrad( tex, frame1, dx.xy, dy.xy );
-    half4 samp2 = tex2Dgrad( tex, frame2, dx.xy, dy.xy );
+    half4 samp0 = tex2Dgrad( tex, frame0, ddxy.x, ddxy.y );
+    half4 samp1 = tex2Dgrad( tex, frame1, ddxy.x, ddxy.y );
+    half4 samp2 = tex2Dgrad( tex, frame2, ddxy.x, ddxy.y );
+
+    //half4 samp0 = tex2Dlod( tex, float4(frame0,0,0) );
+    //half4 samp1 = tex2Dlod( tex, float4(frame1,0,0) );
+    //half4 samp2 = tex2Dlod( tex, float4(frame2,0,0) );
 
     half4 result = samp0*weights.x + samp1*weights.y + samp2*weights.z;
     
@@ -393,11 +397,22 @@ void ImposterSample( in ImposterData imp, out half4 baseTex, out half4 worldNorm
     half2 frame1 = gridSnap + (lerp(half2(0,1),half2(1,0),weights.w)/_ImposterFrames.xx);
     half2 frame2 = gridSnap + (half2(1,1)/_ImposterFrames.xx);
     
-
-
     half2 vp0uv = frame0 + imp.frame0.xy;
     half2 vp1uv = frame1 + imp.frame1.xy; 
     half2 vp2uv = frame2 + imp.frame2.xy;
+   
+    //resolution of atlas (Square)
+    float textureDims = _ImposterBaseTex_TexelSize.z;
+    //fractional frame size, ex 2048/12 = 170.6
+    float frameSize = textureDims/_ImposterFrames; 
+    //actual atlas resolution used, ex 170*12 = 2040
+    float actualDims = floor(frameSize) * _ImposterFrames; 
+    //the scale factor to apply to UV coordinate, ex 2048/2040 = 0.99609375
+    float scaleFactor = actualDims / textureDims;
+   
+    vp0uv *= scaleFactor;
+    vp1uv *= scaleFactor;
+    vp2uv *= scaleFactor;
    
     //clamp out neighboring frames TODO maybe discard instead?
     half2 gridSize = 1.0/_ImposterFrames.xx;
@@ -413,12 +428,7 @@ void ImposterSample( in ImposterData imp, out half4 baseTex, out half4 worldNorm
     half4 n0 = tex2Dlod( _ImposterWorldNormalDepthTex, half4(vp0uv, 0, 1 ) );
     half4 n1 = tex2Dlod( _ImposterWorldNormalDepthTex, half4(vp1uv, 0, 1 ) );
     half4 n2 = tex2Dlod( _ImposterWorldNormalDepthTex, half4(vp2uv, 0, 1 ) );
-    
-    //dx dy
-    half2 coords = imp.uv.xy * 0.5;
-    float2 dx = ddx(coords.xy);  
-    float2 dy = ddy(coords.xy);
-    
+        
     half n0s = 0.5-n0.a;    
     half n1s = 0.5-n1.a;
     half n2s = 0.5-n2.a;
@@ -437,8 +447,10 @@ void ImposterSample( in ImposterData imp, out half4 baseTex, out half4 worldNorm
     vp1uv = clamp(vp1uv,frame1+border,frame1+gridSize-border);
     vp2uv = clamp(vp2uv,frame2+border,frame2+gridSize-border);
     
-    worldNormal = ImposterBlendWeights( _ImposterWorldNormalDepthTex, imp.uv, vp0uv, vp1uv, vp2uv, weights, dx, dy );
-    baseTex = ImposterBlendWeights( _ImposterBaseTex, imp.uv, vp0uv, vp1uv, vp2uv, weights, dx, dy );
+    half2 ddxy = half2( ddx(imp.uv.x), ddy(imp.uv.y) );
+    
+    worldNormal = ImposterBlendWeights( _ImposterWorldNormalDepthTex, imp.uv, vp0uv, vp1uv, vp2uv, weights, ddxy );
+    baseTex = ImposterBlendWeights( _ImposterBaseTex, imp.uv, vp0uv, vp1uv, vp2uv, weights, ddxy );
         
     //pixel depth offset
     //half pdo = 1-baseTex.a;

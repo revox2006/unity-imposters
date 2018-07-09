@@ -278,8 +278,10 @@ public class ImposterBakeWindow : EditorWindow
         Transform lightingRoot, Shader albedoBake, Shader normalBake, ComputeShader processCompute )
     {
         Vector3 originalScale = root.localScale;
+        
+        //reset root local scale
         root.localScale = Vector3.one;
-
+        
         var prevRt = RenderTexture.active;
 
         ///////////////// create the atlas for base and pack
@@ -470,9 +472,10 @@ public class ImposterBakeWindow : EditorWindow
 
         //rescale radius
         var len = new Vector2(max.x - min.x, max.y - min.y);
-        //add 2 pixels to x and y
-        len.x += 2f;
-        len.y += 2f;
+        
+        ////add 2 pixels to x and y
+        //len.x += 2f;
+        //len.y += 2f;
         var maxR = Mathf.Max(len.x, len.y);
 
         var ratio = maxR / frame.width; //assume square
@@ -485,9 +488,13 @@ public class ImposterBakeWindow : EditorWindow
         camera.farClipPlane = imposter.Radius * 2f;
         camera.orthographicSize = imposter.Radius;
 
+        //use a scale factor to make sure the offset is in the correct location
+        //this is related to scaling the asset to 1,1,1 while baking, to ensure imposter matches all types of asset scaling
+        Vector3 scaleFactor = new Vector3(root.localScale.x/originalScale.x, root.localScale.y/originalScale.y, root.localScale.z/originalScale.z);
+        imposter.Offset = Vector3.Scale( imposter.Offset, scaleFactor );
+        
         //recalculate snapshots
         snapshots = UpdateSnapshots(imposter.Frames, imposter.Radius, root.position + imposter.Offset, imposter.IsHalf);
-
         
         ///////////////////// rendering the actual frames 
         
@@ -633,14 +640,18 @@ public class ImposterBakeWindow : EditorWindow
             //convert 1D index to flattened octahedra coordinate
             int x;
             int y;
+            //this is 0-(frames-1) ex, 0-(12-1) 0-11 (for 12 x 12 frames)
             XYFromIndex(frameIndex, imposter.Frames, out x, out y);
             
             //X Y position to write frame into atlas
+            //this would be frame index * frame width, ex 2048/12 = 170.6 = 170
+            //so 12 * 170 = 2040, loses 8 pixels on the right side of atlas and top of atlas
+            
             x *= frame.width;
             y *= frame.height;
             
             //copy base frame into base render target
-            Graphics.CopyTexture(frame,0,0,0,0,frame.width,frame.height,baseAtlas,0,0,x,y);
+            Graphics.CopyTexture(frame,0,0,0,0,frame.width,frame.height, baseAtlas,0,0,x,y);
             
             //copy normals frame into normals render target
             Graphics.CopyTexture(packFrame,0,0,0,0,packFrame.width,packFrame.height,packAtlas,0,0,x,y);

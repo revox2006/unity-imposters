@@ -96,10 +96,7 @@ void CSDistanceAlpha(uint3 id : SV_DispatchThreadID)
 
     float2 origin = float2(x,y);
     
-    uint region = 64;
-    uint regionSamples = sourceWidth*sourceHeight;//*region;
-    uint halfRegion = 32;
-    float dist = 0;
+    uint regionSamples = sourceWidth*sourceHeight;
     
     float centerMask = SourceMask.Load( uint3(x,y,0) ).a;  
     float maxDistance = 0;

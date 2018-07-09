@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -11,28 +11,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96a8e0ed9f2c7642b5dd4751fd0ee0d, type: 3}
   m_Name: teapot_Imposter
   m_EditorClassIdentifier: 
-  AssetReference: {fileID: 1316743776779936, guid: ee158b8b807257d44be9253b0c2382e3,
+  AssetReference: {fileID: 1225637543880980, guid: ee158b8b807257d44be9253b0c2382e3,
     type: 2}
   AtlasResolution: 2048
   BaseTexture: {fileID: 2800000, guid: 2b28ef0b1735fcf41a02e3e470a36965, type: 3}
   BillboardAsset: {fileID: 0}
   Frames: 12
-  IsHalf: 0
+  IsHalf: 1
   Material: {fileID: 2100000, guid: 3e492e671f87e1b4183b3f4ffb0ec04a, type: 2}
   BillboardRendererMaterial: {fileID: 0}
-  Mesh: {fileID: 43493718033039994}
+  Mesh: {fileID: 43279900994249400}
   Offset: {x: 0, y: 0, z: 0}
   PackTexture: {fileID: 2800000, guid: c72cef12b562b4e4faeff776499f2829, type: 3}
-  Prefab: {fileID: 1182143828050910, guid: 511aa36df4e0d2347b299273a474a101, type: 2}
+  Prefab: {fileID: 1661644530867100, guid: 511aa36df4e0d2347b299273a474a101, type: 2}
   PrefabSuffix: IMP
-  Radius: 0.686554
---- !u!43 &43493718033039994
+  Radius: 0.60326594
+--- !u!43 &43279900994249400
 Mesh:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ImposterQuad_0.7
-  serializedVersion: 9
+  m_Name: ImposterQuad_0.6
+  serializedVersion: 8
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -58,8 +58,9 @@ Mesh:
   m_KeepIndices: 1
   m_IndexFormat: 0
   m_IndexBuffer: 020001000000030002000000040003000000010004000000
+  m_Skin: []
   m_VertexData:
-    serializedVersion: 2
+    m_CurrentChannels: 139
     m_VertexCount: 5
     m_Channels:
     - stream: 0
@@ -71,15 +72,11 @@ Mesh:
       format: 0
       dimension: 3
     - stream: 0
-      offset: 24
-      format: 0
-      dimension: 4
-    - stream: 0
       offset: 0
       format: 0
       dimension: 0
     - stream: 0
-      offset: 40
+      offset: 24
       format: 0
       dimension: 2
     - stream: 0
@@ -95,31 +92,11 @@ Mesh:
       format: 0
       dimension: 0
     - stream: 0
-      offset: 0
+      offset: 32
       format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
+      dimension: 4
     m_DataSize: 240
-    _typelessdata: 000000000000000000000000000000000000803f000000000000803f0000000000000000000080bf0000003f0000003f000000bf00000000000000bf000000000000803f000000000000803f0000000000000000000080bf00000000000000000000003f00000000000000bf000000000000803f000000000000803f0000000000000000000080bf0000803f000000000000003f000000000000003f000000000000803f000000000000803f0000000000000000000080bf0000803f0000803f000000bf000000000000003f000000000000803f000000000000803f0000000000000000000080bf000000000000803f
+    _typelessdata: 000000000000000000000000000000000000803f000000000000003f0000003f0000803f0000000000000000000080bf000000bf00000000000000bf000000000000803f0000000000000000000000000000803f0000000000000000000080bf0000003f00000000000000bf000000000000803f000000000000803f000000000000803f0000000000000000000080bf0000003f000000000000003f000000000000803f000000000000803f0000803f0000803f0000000000000000000080bf000000bf000000000000003f000000000000803f00000000000000000000803f0000803f0000000000000000000080bf
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -174,10 +151,8 @@ Mesh:
     m_UVInfo: 0
   m_LocalAABB:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0.8581925, y: 0.8581925, z: 0.8581925}
+    m_Extent: {x: 0.60326594, y: 0.60326594, z: 0.60326594}
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
